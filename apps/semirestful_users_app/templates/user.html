@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        form, input {
+            display: inline-block
+        }
+    </style>
+    <title>User {{ data.id }}</title>
+</head>
+<body>
+    <h1>User {{ data.id }}</h1>
+    <p>Full Name: {{ data.first_name }} {{ data.last_name }}</p>
+    <p>Email: {{ data.email }}</p>
+    <p>Created at: {{ data.created_at }}</p>
+    <form action="/{{ data.id }}/edit" method="get">
+        <input type="submit" value="Edit" class="btn-primary">
+    </form>
+    <form action="/{{ data.id }}/destroy" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete" class="btn-danger">
+    </form>
+    <a href="/">Go back</a>
+</body>
+</html>

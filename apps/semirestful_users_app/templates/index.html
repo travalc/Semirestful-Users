@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .heading {
+            background-color: gray;
+        }
+        .column {
+            border: 1px solid black;
+        }
+        .column a {
+            margin-left: 10px;
+            height: 50px;
+        }
+        .user_forms {
+            display: inline-block;
+        }
+        .user_links {
+            display: inline-block;
+        }
+        form p {
+            display: inline-block;
+        }
+        form p a:hover {
+            cursor: pointer;
+        }
+    </style>
+    <title>Users Index</title>
+</head>
+<body>
+    <h1 class="text-center">Users</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1 heading column text-center">
+                <h5>id</h5>
+            </div>
+            <div class="col-md-2 heading column text-center">
+                <h5>Full Name</h5>
+            </div>
+            <div class="col-md-3 heading column text-center">
+                <h5>Email</h5>
+            </div>
+            <div class="col-md-3 heading column text-center">
+                <h5>Created At</h5>
+            </div>
+            <div class="col-md-3 heading column text-center">
+                <h5>Actions</h5>
+            </div>
+        </div>
+        {% for user in all_users %}
+            <div class="row">
+                <div class="col-md-1 column">
+                    <p>{{ user.id }}</p>
+                </div>
+                <div class="col-md-2 column">
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                </div>
+                <div class="col-md-3 column">
+                    <p>{{ user.email }}</p>
+                </div>
+                <div class="col-md-3 column">
+                    <p>{{ user.created_at }}</p>
+                </div>
+                <div class="col-md-3 column">
+                    <form action="/{{ user.id }}" method="post" class="user_forms">{% csrf_token %}<input type="submit" value="Show" class="user_link btn-primary"></form>
+                    <form action="/{{ user.id }}/edit" method="get" class="user_forms">{% csrf_token %}<input type="submit" value="Edit" class="user_link btn-primary"></form>
+                    <form action="/{{ user.id }}/destroy" method="post" class="user_forms">{% csrf_token %}<input type="submit" value="Delete" class="user_link btn-danger"></form>   
+                </div>
+            </div>
+        {% endfor %}
+        <a href="/new">Add a new user</a>
+        {% if request.session.errors %}
+            {% for error in request.session.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
